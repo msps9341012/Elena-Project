@@ -14,7 +14,7 @@ def index(request):
 	source = request.GET.get('source')
 	dest = request.GET.get('dest') #destination
 	opt = request.GET.get('opt') #min or max
-	thres = request.GET.get('thres') #spercentage that user wants
+	thres = request.GET.get('thres') #percentage that user wants
 
 	#lat/lng of source..etc
 	geocode_result = gmaps.geocode(source)
