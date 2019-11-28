@@ -24,8 +24,12 @@ def index(request):
 	geocode_result = gmaps.geocode(dest)
 	lat1=geocode_result[0]['geometry']['location']['lat']
 	lng1=geocode_result[0]['geometry']['location']['lng']
+	
+	'''
+	Call min/max elevation algo
+	'''
 
-	#return json 
+	#return route information wrapped in json 
 	data={'source':[lat,lng],'dest':[lat1,lng1]}
 
 	return JsonResponse(data)
