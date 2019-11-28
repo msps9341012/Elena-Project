@@ -75,7 +75,8 @@
 
                 '{% url 'index' %}',  
                 data,  
-                function(ret){
+                function(ret){ 
+                  //get our algo' results
                   calculateAndDisplayRoute(directionsService, directionsRenderer,ret);
                 })
               })
@@ -140,6 +141,7 @@
             map.fitBounds(bounds);
         });
     }
+    //show route, not finish
     function calculateAndDisplayRoute(directionsService, directionsRenderer,data) {
         directionsService.route(
             {
@@ -161,7 +163,7 @@
 
 
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAnxkwgFS9TIQ5sPFbtk1McDbNbVUqv2Vc&libraries=places&callback=initMap&language=en"
+    <script src="https://maps.googleapis.com/maps/api/js?key=yourkey=places&callback=initMap&language=en"
     async defer></script>
   </body>
 </html>

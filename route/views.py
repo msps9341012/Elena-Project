@@ -5,7 +5,7 @@ import googlemaps
 from django.http import JsonResponse
 
 
-gmaps = googlemaps.Client(key='AIzaSyAnxkwgFS9TIQ5sPFbtk1McDbNbVUqv2Vc')
+gmaps = googlemaps.Client(key='your key')
 def test(request):
     context = {}
     return render(request, "hello_world.html")
