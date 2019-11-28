@@ -17,7 +17,7 @@
 │   ├── tests.py
 │   ├── urls.py
 │   └── views.py (handle user's request, call min/max elevation algo, return route)
-│   └── (Add new .py for min/max elevation algo)
+│   └── (Add a new .py file here, for min/max elevation algo)
 └── templates
     └── hello_world.html (index html: user search UI, display route)
 ```
