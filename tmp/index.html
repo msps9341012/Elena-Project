@@ -1,0 +1,370 @@
+<!--
+
+=========================================================
+* Argon Dashboard - v1.1.0
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/argon-dashboard
+* Copyright 2019 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard/blob/master/LICENSE.md)
+
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>
+    Elevation-based Navigation
+  </title>
+  <!-- Favicon -->
+  <link href="./assets/img/brand/fav.png" rel="icon" type="image/png" width="6" height="6" >
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+  <!-- Icons -->
+  <link href="./assets/js/plugins/nucleo/css/nucleo.css" rel="stylesheet" />
+  <link href="./assets/js/plugins/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet" />
+  <!-- CSS Files -->
+  <link href="./assets/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Main Stylesheets -->
+  <link rel="stylesheet" href="css/style.css"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<style>
+.container-fluid{
+	width: 400px;
+	height: 900px;
+  padding: 15px;
+  border-style:solid;
+  border-width:5px;
+  border-color:#746C70;
+	background-color: rgb(241, 241, 235);
+	float: left;
+	/*position: absolute;
+	left: 0;*/
+}
+.main-content{
+	height: 900px;
+	background-color: #f8f9fe;	
+	margin-left: 20px;
+}
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+.left-side{
+  width: 50%;
+  height: 100%;
+  float: left;
+}
+.right-side{
+  height: 100%;
+}
+.slidecontainer {
+  width: 100%; /* Width of the outside container */
+}
+
+/* The slider itself */
+.slider {
+  -webkit-appearance: none;  /* Override default CSS styles */
+  appearance: none;
+  width: 70%; /* Full-width */
+  height: 7px;
+  border-radius: 3px;
+  background: #ffffff; /* Grey background */
+  outline: none; /* Remove outline */
+  opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+  -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+  transition: opacity .2s;
+}
+
+/* Mouse-over effects */
+.slider:hover {
+  opacity: 1; /* Fully shown on mouse-over */
+}
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  width: 12px; /* Set a specific slider handle width */
+  height: 12px; /* Slider handle height */
+  border-radius: 50%; 
+  background: #746C70; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}
+
+.slider::-moz-range-thumb {
+  width: 12px; /* Set a specific slider handle width */
+  height: 12px; /* Slider handle height */
+  border-radius: 50%; 
+  background: #746C70; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}
+.btn-secondary{
+  background-color: #647C90;
+}
+.active {
+  background-color: rgb(88, 112, 131)!important;
+}
+.rotate_bg{ 
+
+}
+.rotate_bg img.rotateImages{
+    -webkit-animation:myRotate 10s linear infinite;
+    animation:myRotate 10s linear infinite;
+}
+@-webkit-keyframes myRotate{
+    0%{ -webkit-transform: rotate(0deg);}
+    50%{ -webkit-transform: rotate(180deg);}
+    100%{ -webkit-transform: rotate(360deg);}
+}
+@keyframes myRotate{
+    0%{ -webkit-transform: rotate(0deg);}
+    50%{ -webkit-transform: rotate(180deg);}
+    100%{ -webkit-transform: rotate(360deg);}
+}
+.wrapper {
+  position: relative;
+}
+
+#map {
+  position: absolute;
+}
+
+.content {
+  position: absolute;
+  width: 300px;
+  height: 250px;
+  padding: 5px;
+  right: 5px;
+  top: 5px;
+  background-color: rgb(241, 241, 235);
+  overflow: scroll;
+}
+</style> 
+</head>
+
+<body class="">
+
+  <div class="container-fluid">
+    <!-- Brand -->
+    <div class="rotate_bg">
+      <img src="./assets/img/brand/blue.jpg" alt="..." width="91" height="84" class="rotateImages" >
+    </div>
+    <br>
+    <form method="get">
+      <div for="scource" class="form-group">
+        <label>Start Point</label>
+        <input id="pac-input" name="pac-input" type="text" class="form-control" id="scource" placeholder="Enter start point or click on the map">
+      </div>
+      <div class="form-group">
+        <label for="destination">Destination</label>
+        <input id="pac-output" name="pac-output" type="text" class="form-control" id="destination" placeholder="Enter destination or click on the map">
+      </div>
+    </form>
+    <div style="text-align:center">
+        <div class="btn-group" data-toggle="buttons" >
+            <label class="btn btn-secondary btn-xs" ng-click="levelOU()">
+                <input name="flip-1" id="flip-1" type="radio" name="options" id="option1">  Max
+            </label>
+            <label class="btn btn-secondary btn-xs" ng-click="levelOU()">
+                <input name="flip-1" id="flip-1" type="radio" name="options" id="option2">  Min
+            </label>
+        </div>
+    </div>
+    <br>
+    <label for="per">Percentage of shortest distance</label>
+    <div class="slidecontainer">
+      <b>100%</b>
+      <input type="range" id="slider" min="1" max="200" value="100" class="slider">
+      <b>200%</b>
+      <p>Value: <span id="demo"></span>%</p>
+    </div>
+    <script>
+    var slider = document.getElementById("slider");
+    var output = document.getElementById("demo");
+    output.innerHTML = slider.value;
+        
+    slider.oninput = function() {
+      output.innerHTML = this.value;
+    }
+    </script>
+    <div style="text-align:center">
+      <button type="submit" class="btn btn-secondary">Submit</button>
+    </div>
+    <br>
+    <br>
+    <div class="card" style="width: 22.5rem;">
+        <div class="card-body">
+          <div class="left-side">
+            <p class="card-text">Total Distance: <span id="demo"></span></p>
+          </div>
+          <div class="right-side">
+            <p class="card-text">Elevation Gain: <span id="demo"></span></p>
+        </div>
+        </div>
+      </div>
+  </div>
+
+
+   <div class="main-content">
+    <!-- Navbar -->
+     <div class="wrapper">
+      <div id="map">
+       
+      </div>
+   
+      <div class="content">
+
+      </div>
+    </div>
+
+
+  </div>
+  
+    <!-- End Navbar -->
+
+      <!-- Footer -->
+      <footer class="footer">
+        <div class="row align-items-center justify-content-xl-between">
+          <div class="col-xl-6">
+            <div class="copyright text-center text-xl-left text-muted">
+              &copy; 2019 520Maps
+            </div>
+          </div>          
+        </div>
+      </footer>
+    </div>
+  </div>
+  <!--   Core   -->
+  <script src="./assets/js/plugins/jquery/dist/jquery.min.js"></script>
+  <script src="./assets/js/plugins/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <!--   Optional JS   -->
+  <script src="./assets/js/plugins/chart.js/dist/Chart.min.js"></script>
+  <script src="./assets/js/plugins/chart.js/dist/Chart.extension.js"></script>
+  <!--   Argon JS   -->
+  <script src="./assets/js/argon-dashboard.min.js?v=1.1.0"></script>
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+  <script>
+    window.TrackJS &&
+      TrackJS.install({
+        token: "ee6fab19c5a04ac1a32a645abde4613a",
+        application: "argon-dashboard-free"
+      });
+  </script>
+
+  <script>
+    var map;
+    function initMap() {
+      
+      var directionsService = new google.maps.DirectionsService();
+      var directionsRenderer = new google.maps.DirectionsRenderer();
+      var bounds = new google.maps.LatLngBounds();
+      var directionsDisplay = new google.maps.DirectionsRenderer;
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: 42.387473, lng: -72.529923},
+        zoom: 15
+      });
+      directionsRenderer.setMap(map);
+      $(document).ready(function(){
+      $("#submit").click(function(){
+          var source =  $("#pac-input").val(); 
+          var dest =  $("#pac-output").val();
+          var thres =  $("#slider").val();
+          var opt =  $("#flip-1").val();
+          var data = {"source": source,'dest':dest,'opt':opt,'thres':thres};  
+          $.get(
+              '{% url 'index' %}',  
+              data,  
+              function(ret){ 
+                //get our algo' results
+                calculateAndDisplayRoute(directionsService, directionsRenderer,ret);
+              })
+            })
+        });
+      var input = document.getElementById('pac-input');
+
+      var autocomplete = new google.maps.places.Autocomplete(input);
+      map.addListener('bounds_changed', function() {
+        autocomplete.setBounds(map.getBounds());
+      });
+      var markers1 = [];
+      autocomplete.addListener('place_changed', function() {
+          var place = autocomplete.getPlace();
+          markers1.forEach(function(marker) {
+            marker.setMap(null);
+          });
+          markers1 = [];
+          markers1.push(new google.maps.Marker({
+            map: map,
+            title: place.name,
+            position: place.geometry.location
+          }));
+          if (place.geometry.viewport) {
+            // Only geocodes have viewport.
+            bounds.union(place.geometry.viewport);
+          } else {
+            bounds.extend(place.geometry.location);
+          }
+          map.fitBounds(bounds);
+      });
+      var input2 = document.getElementById('pac-output');
+      
+      var autocomplete2 = new google.maps.places.Autocomplete(input2);
+      map.addListener('bounds_changed', function() {
+        autocomplete2.setBounds(map.getBounds());
+      });
+      var markers2 = [];
+      autocomplete2.addListener('place_changed', function() {
+          var place = autocomplete2.getPlace();
+          markers2.forEach(function(marker) {
+            marker.setMap(null);
+          });
+          markers2 = [];
+          markers2.push(new google.maps.Marker({
+            map: map,
+            title: place.name,
+            position: place.geometry.location
+          }));
+          if (place.geometry.viewport) {
+            // Only geocodes have viewport.
+            bounds.union(place.geometry.viewport);
+          } else {
+            bounds.extend(place.geometry.location);
+          }
+          map.fitBounds(bounds);
+      });
+  }
+  //show route, not finish
+  function calculateAndDisplayRoute(directionsService, directionsRenderer,data) {
+      directionsService.route(
+          {
+            origin: new google.maps.LatLng(data['source'][0], data['source'][1]),
+            destination: new google.maps.LatLng(data['dest'][0], data['dest'][1]),
+             travelMode: 'WALKING'
+          },
+          function(response, status) {
+            if (status === 'OK') {
+              directionsRenderer.setDirections(response);
+            } else {
+              window.alert('Directions request failed due to ' + status);
+            }
+          });
+      
+    }
+  </script>
+
+
+
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAnxkwgFS9TIQ5sPFbtk1McDbNbVUqv2Vc=places&callback=initMap&language=en"
+  async defer></script>
+</body>
+
+</html>
