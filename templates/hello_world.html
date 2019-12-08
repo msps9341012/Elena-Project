@@ -25,7 +25,7 @@
   <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <style>
 .container-fluid{
-  width: 400px;
+  width: 430px;
   height: 900px;
   padding: 15px;
   border-style:solid;
@@ -59,7 +59,7 @@
 .slider {
   -webkit-appearance: none;  /* Override default CSS styles */
   appearance: none;
-  width: 70%; /* Full-width */
+  width: 75%; /* Full-width */
   height: 7px;
   border-radius: 3px;
   background: #ffffff; /* Grey background */
@@ -99,7 +99,12 @@
   background-color: rgb(88, 112, 131)!important;
 }
 .rotate_bg{ 
-
+  width: 25%;
+  height: 100%;
+  float: left;
+}
+.logoname{
+  height: 100%;
 }
 .rotate_bg img.rotateImages{
     -webkit-animation:myRotate 10s linear infinite;
@@ -124,7 +129,7 @@
 #map {
   position: absolute;
   height: 900px;
-  width: 71%;
+  width: 69.5%;
   margin-left:0.15%;
 }
 
@@ -135,39 +140,22 @@
   padding: 5px;
   right: 5px;
   top: 5px;
+  background-color: rgb(241, 241, 235);
   overflow: scroll;
 }
 
-.collapse {
-  visibility: hidden;
+.left-input{
+  width: 88%;
+  height: 185px;
+  float: left;
 }
-.collapse.show {
-  visibility: visible;
-  display: flex;
-  position: absolute;
+.right-change{
+  height: 185px;
+  line-height: 10px;
+  padding: 75px 0;
+  vertical-align: middle;
 
 }
-.collapsing {
-  position: relative;
-  height: 0;
-  overflow: hidden;
-  -webkit-transition-property: height, visibility;
-  transition-property: height, visibility;
-  -webkit-transition-duration: 0.35s;
-  transition-duration: 0.35s;
-  -webkit-transition-timing-function: ease;
-  transition-timing-function: ease;
-}
-.collapsing.width {
-  -webkit-transition-property: width, visibility;
-  transition-property: width, visibility;
-  width: 0;
-  height: auto;
-}
-.warnbox-content,.adp-warnbox{
-visibility:hidden;
-height:0;
-width:0;
 
 }
 
@@ -178,20 +166,41 @@ width:0;
 
   <div class="container-fluid">
     <!-- Brand -->
-    <div class="rotate_bg">
-      <img src="{% static 'assets/img/brand/blue.jpg' %}" alt="..." width="91" height="84" class="rotateImages" >
+    <div>
+      <div class="rotate_bg">
+        <img src="{% static '/assets/img/brand/blue.jpg' %}" alt="..." width="91" height="84" class="rotateImages" >
+      </div>
+      <div class="logoname">
+          <img src="{% static '/assets/img/brand/logo.png' %}" alt="..." width="260" height="77" >
+      </div>
     </div>
     <br>
-    <form method="get">
-      <div for="scource" class="form-group">
-        <label>Start Point</label>
-        <input id="pac-input" name="pac-input" type="text" class="form-control" id="scource" placeholder="Enter start point or click on the map">
+    <div>
+      <div class="left-input">
+        <form method="get">
+          <div for="scource" class="form-group">
+            <label>Start Point</label>
+            <input id="pac-input" name="pac-input" type="text" class="form-control" value="" placeholder="Enter start point or click on the map">
+          </div>
+          <div class="form-group">
+            <label for="destination">Destination</label>
+            <input id="pac-output" name="pac-output" type="text" class="form-control" value="" placeholder="Enter destination or click on the map">
+          </div>
+        </form>
       </div>
-      <div class="form-group">
-        <label for="destination">Destination</label>
-        <input id="pac-output" name="pac-output" type="text" class="form-control" id="destination" placeholder="Enter destination or click on the map">
+      <div class="right-change" style="text-align:center">
+          <button style='font-size:10px' id="change" >
+          <i class='fas fa-arrows-alt-v' style='font-size:36px'></i>
+          </button>
       </div>
-    </form>
+    </div>
+    <script>
+         document.getElementById('change').onclick = function() {
+          var tmp = document.getElementById('pac-input').value;
+          document.getElementById('pac-input').value = document.getElementById('pac-output').value;
+          document.getElementById('pac-output').value = tmp;
+          };
+    </script>
     <div style="text-align:center">
         <div class="btn-group" data-toggle="buttons" >
             <label class="btn btn-secondary btn-xs" ng-click="levelOU()">
@@ -219,22 +228,42 @@ width:0;
       output.innerHTML = this.value;
     }
     </script>
-    <div style="text-align:center">
-      <button id="submit" type="button" class="btn btn-secondary">Submit</button>
+     <div style="text-align:center">
+      <button id="submit" type="button" class="btn btn-secondary">Let's Go!</button>
     </div>
     <br>
-    <br>
-    <div class="card" style="width: 22.5rem;">
+    <div class="card" style="width: 24.3rem; background-color: rgb(219, 219, 211);">
         <div class="card-body">
+          <h5 class="card-title">Best Route: </h5>
           <div class="left-side">
             <p class="card-text">Total Distance: <span id="demo"></span></p>
           </div>
           <div class="right-side">
             <p class="card-text">Elevation Gain: <span id="demo"></span></p>
         </div>
+        
+        <b>Route Details: </b>
+        <br>
+        <br>
+        <div class="center">
+        <input type="button" id="btn2" class="btn btn-secondary btn-xs" value="Show">
+        &nbsp &nbsp
+        <input type="button" id="btn1" class="btn btn-secondary btn-xs" value="Hide">
+      </div>
         </div>
       </div>
-  </div>
+      <script>
+
+          $("#btn1").click(function(){
+            $("#content").slideUp();
+          });
+          $("#btn2").click(function(){
+            $("#content").slideDown();
+          });
+        
+        </script>
+    </div>
+
   <div class="main-content">
     <!-- Navbar -->
       <div id="map"></div>
