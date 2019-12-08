@@ -26,13 +26,14 @@
 <style>
 .container-fluid{
   width: 430px;
-  height: 900px;
+  height: 700px;
   padding: 15px;
   border-style:solid;
   border-width:5px;
   border-color:#746C70;
   background-color: rgb(241, 241, 235);
   float: left;
+  margin-left: 0.3%
   /*position: absolute;
   left: 0;*/
 }
@@ -121,27 +122,34 @@
     100%{ -webkit-transform: rotate(360deg);}
 }
 .main-content{
-  height: 900px;
+  height: 700px;
   margin-left: 20px;
   overflow: hidden;
 }
 
 #map {
   position: absolute;
-  height: 900px;
-  width: 69.5%;
-  margin-left:0.15%;
+  height: 700px;
+  width: 69%;
+  margin-left:0.17%;
 }
 
 .content {
   position: absolute;
   width: 300px;
-  height: 250px;
+  height: 0px;
   padding: 5px;
   right: 5px;
   top: 5px;
   background-color: rgb(241, 241, 235);
   overflow: scroll;
+  transition: all 0.4s ease-in-out;
+  visibility: hidden;
+
+}
+.hide {
+  height: 250px;
+  visibility: visible;
 }
 
 .left-input{
@@ -156,6 +164,7 @@
   vertical-align: middle;
 
 }
+
 
 }
 
@@ -229,39 +238,24 @@
     }
     </script>
      <div style="text-align:center">
-      <button id="submit" type="button" class="btn btn-secondary">Let's Go!</button>
+      <button id="submit" type="button" class="btn btn-secondary" onclick="document.getElementById('card').style.display = 'block' ;">Let's Go!</button>
     </div>
     <br>
-    <div class="card" style="width: 24.3rem; background-color: rgb(219, 219, 211);">
+    <div id='card' class="card" style="display: none; width: 24.3rem; background-color: rgb(219, 219, 211); margin-top: -2%; margin-left: 1%;">
         <div class="card-body">
-          <h5 class="card-title">Best Route: </h5>
+          <h5 class="card-text">Best Route: </h5>
           <div class="left-side">
-            <p class="card-text">Total Distance: <span id="demo"></span></p>
+            <p class="card-text">Total Distance: <span id="ggg"></span> m</p>
           </div>
           <div class="right-side">
-            <p class="card-text">Elevation Gain: <span id="demo"></span></p>
+            <p class="card-text">Elevation Gain: <span id="fff"></span> m</p>
         </div>
-        
-        <b>Route Details: </b>
         <br>
-        <br>
-        <div class="center">
-        <input type="button" id="btn2" class="btn btn-secondary btn-xs" value="Show">
-        &nbsp &nbsp
-        <input type="button" id="btn1" class="btn btn-secondary btn-xs" value="Hide">
-      </div>
+        <div style="text-align:center">
+        <button class="btn btn-secondary btn-xs" onclick="slide();">Show Details</button>
+        </div>
         </div>
       </div>
-      <script>
-
-          $("#btn1").click(function(){
-            $("#content").slideUp();
-          });
-          $("#btn2").click(function(){
-            $("#content").slideDown();
-          });
-        
-        </script>
     </div>
 
   <div class="main-content">
@@ -271,21 +265,18 @@
       <div class="content" id='content'></div>
 
   </div>
+  <script>
+          var elem = document.getElementById("content");
+          function slide() {
+            elem.classList.toggle('hide');
+          }
+        
+  </script>
   
     <!-- End Navbar -->
 
       <!-- Footer -->
-      <footer class="footer">
-        <div class="row align-items-center justify-content-xl-between">
-          <div class="col-xl-6">
-            <div class="copyright text-center text-xl-left text-muted">
-              &copy; 2019 520Maps
-            </div>
-          </div>          
-        </div>
-      </footer>
-    </div>
-  </div>
+
 
   <!--   Core   -->
   <script src="{% static 'assets/js/plugins/jquery/dist/jquery.min.js' %}"></script>
@@ -335,6 +326,8 @@
                 marker.setMap(null);
                 });
                 calculateAndDisplayRoute(directionsService, directionsRenderer,ret);
+                document.getElementById("ggg").innerHTML= '2344';
+                document.getElementById("fff").innerHTML= '555';
               })
             })
         });
