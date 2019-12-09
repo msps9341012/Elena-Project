@@ -13,10 +13,12 @@ import networkx as nx
 from osmnx.core import save_to_cache
 from osmnx.core import get_from_cache
 from osmnx.utils import log
+import os
+
 
 
 def get_min_elevation_gain(start_point, end_point, r):
-    graph=nx.read_gpickle('/Users/tim/Desktop/VictorCarry/route/123.pkl')
+    graph=nx.read_gpickle('map_data.pkl')
     src = ox.get_nearest_node(graph, start_point)
     tar = ox.get_nearest_node(graph, end_point)
 
