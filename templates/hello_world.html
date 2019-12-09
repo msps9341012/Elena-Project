@@ -26,7 +26,7 @@
 <style>
 .container-fluid{
   width: 430px;
-  height: 700px;
+  height: 800px;
   padding: 15px;
   border-style:solid;
   border-width:5px;
@@ -122,14 +122,14 @@
     100%{ -webkit-transform: rotate(360deg);}
 }
 .main-content{
-  height: 700px;
+  height: 800px;
   margin-left: 20px;
   overflow: hidden;
 }
 
 #map {
   position: absolute;
-  height: 700px;
+  height: 800px;
   width: 69%;
   margin-left:0.17%;
 }
@@ -141,14 +141,14 @@
   padding: 5px;
   right: 5px;
   top: 5px;
-  background-color: rgb(241, 241, 235);
+  background-color: rgb(252, 252, 245);
   overflow: scroll;
   transition: all 0.4s ease-in-out;
   visibility: hidden;
 
 }
 .hide {
-  height: 250px;
+  height: 500px;
   visibility: visible;
 }
 
@@ -162,6 +162,12 @@
   line-height: 10px;
   padding: 75px 0;
   vertical-align: middle;
+
+}
+.warnbox-content,.adp-warnbox{
+visibility:hidden;
+height:0;
+width:0;
 
 }
 
@@ -211,15 +217,26 @@
           };
     </script>
     <div style="text-align:center">
-        <div class="btn-group" data-toggle="buttons" >
+        <div class="btn-group" data-toggle="buttons" id="rates" >
             <label class="btn btn-secondary btn-xs" ng-click="levelOU()">
-                <input name="flip-1" id="flip-1" type="radio" name="options" id="option1">  Max
+                <input name='optt' id="flip-1" type="radio" value="Max">  Max
             </label>
             <label class="btn btn-secondary btn-xs" ng-click="levelOU()">
-                <input name="flip-1" id="flip-1" type="radio" name="options" id="option2">  Min
+                <input name='optt' id="flip-2" type="radio" value="Min">  Min
             </label>
         </div>
     </div>
+    <script>
+      var radios = document.getElementsByName('optt');
+      console.log(radios);
+      for(i=0; i<radios.length; i++ ) {
+        radios[i].onclick = function(e) {
+        if(e.ctrlKey) {
+            this.checked = false;
+          }
+        }
+      }
+    </script>
     <br>
     <label for="per">Percentage of shortest distance</label>
     <div class="slidecontainer">
@@ -238,19 +255,16 @@
     }
     </script>
      <div style="text-align:center">
-      <button id="submit" type="button" class="btn btn-secondary" onclick="document.getElementById('card').style.display = 'block' ;">Let's Go!</button>
+      <button id="submit" type="button" class="btn btn-secondary" onclick="document.getElementById('card').style.display = 'block' ;" style="margin-top: 1%">Let's Go!</button>
     </div>
     <br>
-    <div id='card' class="card" style="display: none; width: 24.3rem; background-color: rgb(219, 219, 211); margin-top: -2%; margin-left: 1%;">
+    <div id='card' class="card" style="display: none; width: 24.3rem; background-color: rgb(242, 232, 211); margin-top: 2%; margin-left: 1%;">
         <div class="card-body">
           <h5 class="card-text">Best Route: </h5>
-          <div class="left-side">
-            <p class="card-text">Total Distance: <span id="ggg"></span> m</p>
-          </div>
-          <div class="right-side">
-            <p class="card-text">Elevation Gain: <span id="fff"></span> m</p>
-        </div>
-        <br>
+          <p class="card-text">Total Distance: <span id="ggg"></span></p>
+          <div style="height:1px;font-size:1px;">&nbsp;</div>
+          <p class="card-text">Elevation Gain: <span id="fff"></span></p>
+        <div style="height:1px;font-size:1px;">&nbsp;</div>
         <div style="text-align:center">
         <button class="btn btn-secondary btn-xs" onclick="slide();">Show Details</button>
         </div>
@@ -312,8 +326,9 @@
           var source =  $("#pac-input").val(); 
           var dest =  $("#pac-output").val();
           var thres =  $("#slider").val();
-          var opt =  $("#flip-1").val();
-          var data = {"source": source,'dest':dest,'opt':opt,'thres':thres};  
+          var max_opt =  document.getElementById('flip-1').checked          
+          var min_opt =  document.getElementById('flip-2').checked
+          var data = {"source": source,'dest':dest,'max_opt':max_opt, 'min_opt':min_opt,'thres':thres};  
           $.get(
               '{% url 'index' %}',  
               data,  
@@ -326,8 +341,8 @@
                 marker.setMap(null);
                 });
                 calculateAndDisplayRoute(directionsService, directionsRenderer,ret);
-                document.getElementById("ggg").innerHTML= '2344';
-                document.getElementById("fff").innerHTML= '555';
+                document.getElementById("ggg").innerHTML= ret['new_dist'];
+                document.getElementById("fff").innerHTML= ret['new_elevation_gain'];
               })
             })
         });
@@ -386,15 +401,18 @@
   //show route, not finish
   function calculateAndDisplayRoute(directionsService, directionsRenderer,data) {
       var w=[];
-      w.push({
-        location: new google.maps.LatLng(42.386825, -72.524870),
-        stopover: false
-      })
+      for (i = 0; i < 23; i++) {
+        w.push({
+            location: new google.maps.LatLng(data['new_path'][i][1], data['new_path'][i][0]),
+            stopover: false
+          })
+      }
       directionsService.route(
           {
             origin: new google.maps.LatLng(data['source'][0], data['source'][1]),
             destination: new google.maps.LatLng(data['dest'][0], data['dest'][1]),
             waypoints: w,
+            optimizeWaypoints: true,
             travelMode: 'BICYCLING'
           },
           function(response, status) {
