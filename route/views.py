@@ -39,8 +39,7 @@ def index(request):
 		res['new_path'].pop(0)
 	#return route information wrapped in json 
 	data={'source':[lat,lng],'dest':[lat1,lng1],'new_path':res['new_path'],
-	'new_dist': str(res['new_dist'])+" mi", 'new_elevation_gain': str(res['new_elevation_gain'])+" mi"}
-
+	'new_dist': str(res['new_dist']/1000)+" mi", 'new_elevation_gain': str(res['new_elevation_gain']/1000)+" mi"}
 	return JsonResponse(data)
 
 

@@ -204,8 +204,8 @@ width:0;
         </form>
       </div>
       <div class="right-change" style="text-align:center">
-          <button style='font-size:10px' id="change" >
-          <i class='fas fa-arrows-alt-v' style='font-size:36px'></i>
+          <button style='width: 35px; height: 35px;' id="change" >
+          <i class='fas fa-retweet'></i>
           </button>
       </div>
     </div>
@@ -228,7 +228,6 @@ width:0;
     </div>
     <script>
       var radios = document.getElementsByName('optt');
-      console.log(radios);
       for(i=0; i<radios.length; i++ ) {
         radios[i].onclick = function(e) {
         if(e.ctrlKey) {
@@ -241,7 +240,7 @@ width:0;
     <label for="per">Percentage of shortest distance</label>
     <div class="slidecontainer">
       <b>100%</b>
-      <input type="range" id="slider" min="1" max="200" value="100" class="slider">
+      <input type="range" id="slider" min="100" max="200" value="150" class="slider">
       <b>200%</b>
       <p>Value: <span id="demo"></span>%</p>
     </div>
@@ -334,6 +333,7 @@ width:0;
               data,  
               function(ret){ 
                 //get our algo' results
+                
                 markers1.forEach(function(marker) {
                 marker.setMap(null);
                 });
@@ -401,11 +401,12 @@ width:0;
   //show route, not finish
   function calculateAndDisplayRoute(directionsService, directionsRenderer,data) {
       var w=[];
-      for (i = 0; i < 23; i++) {
+      for (i = 0; i < Math.min(23,data['new_path'].length); i++) {
         w.push({
             location: new google.maps.LatLng(data['new_path'][i][1], data['new_path'][i][0]),
             stopover: false
           })
+
       }
       directionsService.route(
           {
