@@ -9,7 +9,7 @@
 │   ├── urls.py
 │   └── wsgi.py
 ├── manage.py
-├── map_data.pkl
+├── map_data.pkl (openstreetmap data for amherst)
 ├── route
 │   ├── admin.py
 │   ├── apps.py
