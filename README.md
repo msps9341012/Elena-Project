@@ -9,12 +9,11 @@
 │   ├── urls.py
 │   └── wsgi.py
 ├── manage.py
-├── map_data.pkl (openstreetmap data for amherst)
+├── map_data.pkl (openstreetmap data for Amherst)
 ├── route
 │   ├── admin.py
 │   ├── apps.py
 │   ├── max_route.py (for max elevation)
-│   ├── migrations
 │   ├── min_route.py (for min elevation)
 │   ├── models.py
 │   ├── tests.py
