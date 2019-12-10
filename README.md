@@ -26,7 +26,7 @@
 │       ├── img
 │       └── js
 └── templates
-    └── hello_world.html (index html: user search UI, display route)
+    └── hello_world.html (index page: user search UI, display route)
 
 137 directories, 1836 files
 
